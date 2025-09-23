@@ -1,0 +1,71 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8D5FF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C8A8FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A78BFA;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 发光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 动画定义 -->
+    <style>
+      .logo-icon {
+        animation: pulse 2s ease-in-out infinite alternate;
+      }
+      
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.05); }
+      }
+      
+      .logo-text {
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        fill: url(#logoGradient);
+      }
+      
+      .logo-subtitle {
+        font-family: 'Arial', sans-serif;
+        font-weight: normal;
+        fill: #8B5CF6;
+        opacity: 0.8;
+      }
+    </style>
+  </defs>
+  
+  <!-- 背景圆形 -->
+  <circle cx="25" cy="30" r="20" fill="url(#logoGradient)" opacity="0.1" class="logo-icon"/>
+  
+  <!-- 主图标 - 抽象的嵌入向量表示 -->
+  <g class="logo-icon" filter="url(#glow)">
+    <!-- 中心核心 -->
+    <circle cx="25" cy="30" r="8" fill="url(#logoGradient)"/>
+    
+    <!-- 向量线条 -->
+    <g stroke="url(#logoGradient)" stroke-width="2" fill="none">
+      <path d="M15 20 L35 40" opacity="0.8"/>
+      <path d="M35 20 L15 40" opacity="0.8"/>
+      <path d="M10 30 L40 30" opacity="0.9"/>
+      <path d="M25 15 L25 45" opacity="0.9"/>
+    </g>
+    
+    <!-- 数据点 -->
+    <circle cx="15" cy="20" r="2" fill="#A78BFA"/>
+    <circle cx="35" cy="20" r="2" fill="#A78BFA"/>
+    <circle cx="15" cy="40" r="2" fill="#A78BFA"/>
+    <circle cx="35" cy="40" r="2" fill="#A78BFA"/>
+  </g>
+  
+  <!-- 文字部分 -->
+  <text x="55" y="25" class="logo-text" font-size="16">Embedding</text>
+  <text x="55" y="42" class="logo-subtitle" font-size="12">增强系统</text>
+</svg>

@@ -1,0 +1,2 @@
+2025-09-23 20:10:27,618 - EmbeddingEnhancer - ERROR - logger:None:0 - 命令行界面启动失败: CLIInterface.__init__() got an unexpected keyword argument 'app'
+2025-09-23 20:31:37,917 - EmbeddingEnhancer - ERROR - logger:None:0 - 处理文件失败 sample_data/test_document.txt: 输入文件不存在: sample_data/test_document.txt

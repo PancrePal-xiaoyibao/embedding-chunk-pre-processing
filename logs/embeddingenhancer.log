@@ -1,0 +1,28 @@
+2025-09-23 20:10:27,617 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:10:27,618 - EmbeddingEnhancer - INFO - logger:None:0 - 启动命令行界面
+2025-09-23 20:10:27,618 - EmbeddingEnhancer - ERROR - logger:None:0 - 命令行界面启动失败: CLIInterface.__init__() got an unexpected keyword argument 'app'
+2025-09-23 20:11:07,718 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:11:07,718 - EmbeddingEnhancer - INFO - logger:None:0 - 启动命令行界面
+2025-09-23 20:29:55,944 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:29:55,946 - EmbeddingEnhancer - INFO - logger:None:0 - 启动命令行界面
+2025-09-23 20:30:18,988 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:31:37,916 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:31:37,917 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: sample_data/test_document.txt
+2025-09-23 20:31:37,917 - EmbeddingEnhancer - ERROR - logger:None:0 - 处理文件失败 sample_data/test_document.txt: 输入文件不存在: sample_data/test_document.txt
+2025-09-23 20:32:07,886 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:32:07,886 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: sample_data/test_document.txt
+2025-09-23 20:32:09,587 - EmbeddingEnhancer - INFO - logger:None:0 - 文件处理完成: sample_data/test_document.txt, 耗时: 1.70秒
+2025-09-23 20:32:54,458 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:32:54,459 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: sample_data/invalid_document.bin
+2025-09-23 20:32:56,473 - EmbeddingEnhancer - INFO - logger:None:0 - 文件处理完成: sample_data/invalid_document.bin, 耗时: 2.01秒
+2025-09-23 20:34:03,540 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:34:03,541 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md
+2025-09-23 20:37:10,767 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:37:10,768 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md
+2025-09-23 20:37:57,688 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:37:57,689 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md
+2025-09-23 20:39:04,835 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:39:04,836 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md
+2025-09-23 20:39:56,756 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-23 20:39:56,756 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md
+2025-09-23 20:54:06,408 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}文档上传 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- 页面标题 -->
+        <div class="text-center mb-5">
+            <div class="d-flex justify-content-center align-items-center mb-3">
+                <i class="bi bi-cloud-upload display-4 me-3" style="color: var(--primary-color);"></i>
+                <h1 class="display-5 mb-0" style="color: var(--text-primary); font-weight: 600;">文档上传处理</h1>
+            </div>
+            <p class="lead" style="color: var(--text-secondary);">上传您的文档，开始智能分块和关键词提取之旅</p>
+        </div>
+
+        <div class="row">
+            <!-- 上传表单 -->
+            <div class="col-lg-6">
+                <div class="card glass-effect h-100">
+                    <div class="card-header text-center">
+                        <h4 style="color: var(--text-primary);">
+                            <i class="bi bi-file-earmark-arrow-up me-2"></i>选择文档
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="mb-4">
+                                <label for="file" class="form-label" style="color: var(--text-primary); font-weight: 500;">选择文档文件</label>
+                                <div class="upload-area" style="border: 2px dashed var(--primary-light); border-radius: 12px; padding: 2rem; text-align: center; background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(168, 85, 247, 0.05));">
+                                    <i class="bi bi-cloud-upload display-1 mb-3" style="color: var(--primary-light);"></i>
+                                    <input type="file" class="form-control" id="file" name="file" 
+                                           accept=".txt,.md,.markdown,.doc,.docx,.pdf" required
+                                           style="border: 2px solid var(--primary-light); border-radius: 8px;">
+                                    <div class="form-text mt-3" style="color: var(--text-secondary);">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        支持格式：TXT, MD, MARKDOWN, DOC, DOCX, PDF（最大50MB）
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-rocket-takeoff me-2"></i>开始处理
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 处理流程说明 -->
+            <div class="col-lg-6">
+                <div class="card glass-effect h-100">
+                    <div class="card-header text-center">
+                        <h4 style="color: var(--text-primary);">
+                            <i class="bi bi-gear-wide-connected me-2"></i>处理流程
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="process-steps">
+                            <div class="step-item mb-4 p-3" style="border-left: 4px solid var(--primary-color); background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.05)); border-radius: 0 8px 8px 0;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge rounded-pill me-3" style="background: var(--primary-color); font-size: 0.9rem;">1</span>
+                                    <h6 class="mb-0" style="color: var(--text-primary); font-weight: 600;">智能分块</h6>
+                                </div>
+                                <p class="mb-0 ms-4" style="color: var(--text-secondary);">根据语义和结构进行智能分块，保持内容完整性</p>
+                            </div>
+
+                            <div class="step-item mb-4 p-3" style="border-left: 4px solid #10B981; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border-radius: 0 8px 8px 0;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge rounded-pill me-3" style="background: #10B981; font-size: 0.9rem;">2</span>
+                                    <h6 class="mb-0" style="color: var(--text-primary); font-weight: 600;">关键词提取</h6>
+                                </div>
+                                <p class="mb-0 ms-4" style="color: var(--text-secondary);">提取每个分块的关键词和专业术语</p>
+                            </div>
+
+                            <div class="step-item mb-4 p-3" style="border-left: 4px solid #F59E0B; background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border-radius: 0 8px 8px 0;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge rounded-pill me-3" style="background: #F59E0B; font-size: 0.9rem;">3</span>
+                                    <h6 class="mb-0" style="color: var(--text-primary); font-weight: 600;">质量评估</h6>
+                                </div>
+                                <p class="mb-0 ms-4" style="color: var(--text-secondary);">多维度评估分块质量并提供优化建议</p>
+                            </div>
+
+                            <div class="step-item p-3" style="border-left: 4px solid #EF4444; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05)); border-radius: 0 8px 8px 0;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge rounded-pill me-3" style="background: #EF4444; font-size: 0.9rem;">4</span>
+                                    <h6 class="mb-0" style="color: var(--text-primary); font-weight: 600;">结果导出</h6>
+                                </div>
+                                <p class="mb-0 ms-4" style="color: var(--text-secondary);">生成处理结果文件供下载和进一步分析</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <h5>处理说明：</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <i class="bi bi-1-circle text-primary"></i>
+                    <strong>文档分块：</strong>根据语义和结构进行智能分块
+                </li>
+                <li class="list-group-item">
+                    <i class="bi bi-2-circle text-primary"></i>
+                    <strong>关键词提取：</strong>提取每个分块的关键词和医学术语
+                </li>
+                <li class="list-group-item">
+                    <i class="bi bi-3-circle text-primary"></i>
+                    <strong>质量评估：</strong>评估分块质量并提供优化建议
+                </li>
+                <li class="list-group-item">
+                    <i class="bi bi-4-circle text-primary"></i>
+                    <strong>结果导出：</strong>生成处理结果文件供下载
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

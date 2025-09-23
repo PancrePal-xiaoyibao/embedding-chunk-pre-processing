@@ -1,0 +1,28 @@
+{"timestamp": "2025-09-23T20:10:27.617957", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:10:27.618110", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "启动命令行界面", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:10:27.618177", "level": "ERROR", "logger": "EmbeddingEnhancer", "message": "命令行界面启动失败: CLIInterface.__init__() got an unexpected keyword argument 'app'", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:11:07.718296", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:11:07.718606", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "启动命令行界面", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:29:55.944451", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:29:55.946091", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "启动命令行界面", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:30:18.988399", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:31:37.916690", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:31:37.917156", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: sample_data/test_document.txt", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:31:37.917237", "level": "ERROR", "logger": "EmbeddingEnhancer", "message": "处理文件失败 sample_data/test_document.txt: 输入文件不存在: sample_data/test_document.txt", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:32:07.886373", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:32:07.886852", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: sample_data/test_document.txt", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:32:09.587246", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "文件处理完成: sample_data/test_document.txt, 耗时: 1.70秒", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:32:54.458719", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:32:54.459230", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: sample_data/invalid_document.bin", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:32:56.473348", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "文件处理完成: sample_data/invalid_document.bin, 耗时: 2.01秒", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:34:03.540657", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:34:03.541163", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:37:10.767557", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:37:10.768504", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:37:57.688541", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:37:57.689315", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:39:04.835672", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:39:04.836184", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:39:56.756709", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:39:56.756978", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-23T20:54:06.408825", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}

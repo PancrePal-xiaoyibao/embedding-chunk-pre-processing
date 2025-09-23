@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- 主标题区域 -->
+        <div class="text-center mb-5">
+            <div class="d-flex justify-content-center align-items-center mb-4">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Embedding增强系统" style="height: 80px; margin-right: 20px;">
+                <div>
+                    <h1 class="display-3 mb-0" style="color: var(--primary-color); font-weight: 700;">Embedding增强系统</h1>
+                    <p class="lead mt-2" style="color: var(--text-secondary); font-size: 1.3rem;">智能文档分块、关键词提取和质量评估一体化平台</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <p class="text-muted" style="font-size: 1.1rem;">
+                        基于先进的AI技术，为您提供高效、精准的文档处理解决方案
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能入口区域 - 一行布局 -->
+        <div class="row g-3 mb-5">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card h-100 glass-effect">
+                    <div class="card-body text-center p-3">
+                        <div class="mb-3">
+                            <i class="bi bi-house-door display-4" style="color: var(--primary-color);"></i>
+                        </div>
+                        <h6 class="card-title mb-2" style="color: var(--text-primary); font-weight: 600;">首页</h6>
+                        <a href="{{ url_for('index') }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-house me-1"></i>首页
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card h-100 glass-effect">
+                    <div class="card-body text-center p-3">
+                        <div class="mb-3">
+                            <i class="bi bi-cloud-upload display-4" style="color: var(--primary-dark);"></i>
+                        </div>
+                        <h6 class="card-title mb-2" style="color: var(--text-primary); font-weight: 600;">文档处理</h6>
+                        <a href="{{ url_for('upload_file') }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-arrow-right me-1"></i>开始处理
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card h-100 glass-effect">
+                    <div class="card-body text-center p-3">
+                        <div class="mb-3">
+                            <i class="bi bi-graph-up display-4" style="color: var(--primary-darker);"></i>
+                        </div>
+                        <h6 class="card-title mb-2" style="color: var(--text-primary); font-weight: 600;">质量评估</h6>
+                        <a href="{{ url_for('evaluate_page') }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-bar-chart me-1"></i>质量评估
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card h-100 glass-effect">
+                    <div class="card-body text-center p-3">
+                        <div class="mb-3">
+                            <i class="bi bi-gear display-4" style="color: var(--primary-light);"></i>
+                        </div>
+                        <h6 class="card-title mb-2" style="color: var(--text-primary); font-weight: 600;">系统配置</h6>
+                        <a href="{{ url_for('config_page') }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-sliders me-1"></i>系统配置
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用说明区域 -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card glass-effect">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="bi bi-question-circle display-4" style="color: var(--primary-color);"></i>
+                        </div>
+                        <h5 class="card-title mb-3" style="color: var(--text-primary); font-weight: 600;">使用说明</h5>
+                        <p class="card-text mb-4" style="color: var(--text-secondary);">查看系统功能和详细使用方法</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#helpModal">
+                            <i class="bi bi-book me-2"></i>查看帮助
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 特性展示区域 -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3 style="color: var(--text-primary);">
+                            <i class="bi bi-stars me-2"></i>核心特性
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-4 text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-lightning-charge display-4" style="color: var(--primary-color);"></i>
+                                </div>
+                                <h5 style="color: var(--text-primary);">高效处理</h5>
+                                <p style="color: var(--text-secondary);">基于先进算法，快速处理大型文档</p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-shield-check display-4" style="color: #10B981;"></i>
+                                </div>
+                                <h5 style="color: var(--text-primary);">质量保证</h5>
+                                <p style="color: var(--text-secondary);">多维度质量评估，确保处理效果</p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-cpu display-4" style="color: #F59E0B;"></i>
+                                </div>
+                                <h5 style="color: var(--text-primary);">智能分析</h5>
+                                <p style="color: var(--text-secondary);">AI驱动的智能分块和关键词提取</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 帮助模态框 -->
+<div class="modal fade" id="helpModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">系统使用说明</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6>主要功能：</h6>
+                <ul>
+                    <li><strong>文档处理：</strong>支持Markdown、TXT等格式，智能分块和关键词提取</li>
+                    <li><strong>质量评估：</strong>多维度评估分块质量，提供优化建议</li>
+                    <li><strong>系统配置：</strong>灵活配置处理参数和模型设置</li>
+                </ul>
+                
+                <h6>支持的文件格式：</h6>
+                <p>TXT, MD, MARKDOWN, DOC, DOCX, PDF</p>
+                
+                <h6>处理流程：</h6>
+                <ol>
+                    <li>上传文档文件</li>
+                    <li>系统自动进行分块处理</li>
+                    <li>提取关键词和评估质量</li>
+                    <li>下载处理结果</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,420 @@
+{% extends "base.html" %}
+
+{% block title %}系统配置{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-cog me-2"></i>系统配置
+                    </h3>
+                    <p class="mb-0 text-muted">配置系统参数和处理选项</p>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('config_page') }}">
+                        <!-- LLM配置 -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-brain me-2"></i>LLM配置
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="default_provider" class="form-label">默认提供商</label>
+                                            <select class="form-select" id="default_provider" name="default_provider">
+                                                <option value="glm" {% if config.llm_config.default_provider == 'glm' %}selected{% endif %}>GLM</option>
+                                                <option value="deepseek" {% if config.llm_config.default_provider == 'deepseek' %}selected{% endif %}>DeepSeek</option>
+                                                <option value="openai" {% if config.llm_config.default_provider == 'openai' %}selected{% endif %}>OpenAI</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- GLM配置 -->
+                                <div class="provider-config" id="glm-config">
+                                    <h6 class="text-primary">GLM配置</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="glm_model" class="form-label">模型</label>
+                                                <input type="text" class="form-control" id="glm_model" name="glm_model" 
+                                                       value="{{ config.llm_config.providers.glm.model or 'glm-4-flash' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="glm_api_key" class="form-label">API Key</label>
+                                                <input type="password" class="form-control" id="glm_api_key" name="glm_api_key" 
+                                                       value="{{ config.llm_config.providers.glm.api_key or '' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label for="glm_base_url" class="form-label">Base URL</label>
+                                                <input type="url" class="form-control" id="glm_base_url" name="glm_base_url" 
+                                                       value="{{ config.llm_config.providers.glm.base_url or 'https://open.bigmodel.cn/api/paas/v4/' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="glm_max_tokens" class="form-label">最大Token数</label>
+                                                <input type="number" class="form-control" id="glm_max_tokens" name="glm_max_tokens" 
+                                                       value="{{ config.llm_config.providers.glm.max_tokens or 4000 }}" min="100" max="8000">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="glm_temperature" class="form-label">温度参数</label>
+                                                <input type="number" class="form-control" id="glm_temperature" name="glm_temperature" 
+                                                       value="{{ config.llm_config.providers.glm.temperature or 0.3 }}" min="0" max="2" step="0.1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="glm_timeout" class="form-label">超时时间（秒）</label>
+                                                <input type="number" class="form-control" id="glm_timeout" name="glm_timeout" 
+                                                       value="{{ config.llm_config.providers.glm.timeout or 30 }}" min="5" max="300">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- DeepSeek配置 -->
+                                <div class="provider-config mt-4" id="deepseek-config">
+                                    <h6 class="text-success">DeepSeek配置</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="deepseek_model" class="form-label">模型</label>
+                                                <input type="text" class="form-control" id="deepseek_model" name="deepseek_model" 
+                                                       value="{{ config.llm_config.providers.deepseek.model or 'deepseek-chat' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="deepseek_api_key" class="form-label">API Key</label>
+                                                <input type="password" class="form-control" id="deepseek_api_key" name="deepseek_api_key" 
+                                                       value="{{ config.llm_config.providers.deepseek.api_key or '' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label for="deepseek_base_url" class="form-label">Base URL</label>
+                                                <input type="url" class="form-control" id="deepseek_base_url" name="deepseek_base_url" 
+                                                       value="{{ config.llm_config.providers.deepseek.base_url or 'https://api.deepseek.com/' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="deepseek_max_tokens" class="form-label">最大Token数</label>
+                                                <input type="number" class="form-control" id="deepseek_max_tokens" name="deepseek_max_tokens" 
+                                                       value="{{ config.llm_config.providers.deepseek.max_tokens or 4000 }}" min="100" max="8000">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="deepseek_temperature" class="form-label">温度参数</label>
+                                                <input type="number" class="form-control" id="deepseek_temperature" name="deepseek_temperature" 
+                                                       value="{{ config.llm_config.providers.deepseek.temperature or 0.3 }}" min="0" max="2" step="0.1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="deepseek_timeout" class="form-label">超时时间（秒）</label>
+                                                <input type="number" class="form-control" id="deepseek_timeout" name="deepseek_timeout" 
+                                                       value="{{ config.llm_config.providers.deepseek.timeout or 30 }}" min="5" max="300">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- OpenAI配置 -->
+                                <div class="provider-config mt-4" id="openai-config">
+                                    <h6 class="text-info">OpenAI配置</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="openai_model" class="form-label">模型</label>
+                                                <input type="text" class="form-control" id="openai_model" name="openai_model" 
+                                                       value="{{ config.llm_config.providers.openai.model or 'gpt-3.5-turbo' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="openai_api_key" class="form-label">API Key</label>
+                                                <input type="password" class="form-control" id="openai_api_key" name="openai_api_key" 
+                                                       value="{{ config.llm_config.providers.openai.api_key or '' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label for="openai_base_url" class="form-label">Base URL</label>
+                                                <input type="url" class="form-control" id="openai_base_url" name="openai_base_url" 
+                                                       value="{{ config.llm_config.providers.openai.base_url or 'https://api.openai.com/v1/' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="openai_max_tokens" class="form-label">最大Token数</label>
+                                                <input type="number" class="form-control" id="openai_max_tokens" name="openai_max_tokens" 
+                                                       value="{{ config.llm_config.providers.openai.max_tokens or 4000 }}" min="100" max="8000">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="openai_temperature" class="form-label">温度参数</label>
+                                                <input type="number" class="form-control" id="openai_temperature" name="openai_temperature" 
+                                                       value="{{ config.llm_config.providers.openai.temperature or 0.3 }}" min="0" max="2" step="0.1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="openai_timeout" class="form-label">超时时间（秒）</label>
+                                                <input type="number" class="form-control" id="openai_timeout" name="openai_timeout" 
+                                                       value="{{ config.llm_config.providers.openai.timeout or 30 }}" min="5" max="300">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 关键词提取配置 -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-tags me-2"></i>关键词提取配置
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="max_keywords_per_chunk" class="form-label">每块最大关键词数</label>
+                                            <input type="number" class="form-control" id="max_keywords_per_chunk" name="max_keywords_per_chunk" 
+                                                   value="{{ config.keyword_extraction.max_keywords_per_chunk or 8 }}" min="1" max="20">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="min_keyword_length" class="form-label">最小关键词长度</label>
+                                            <input type="number" class="form-control" id="min_keyword_length" name="min_keyword_length" 
+                                                   value="{{ config.keyword_extraction.min_keyword_length or 2 }}" min="1" max="10">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="max_keyword_length" class="form-label">最大关键词长度</label>
+                                            <input type="number" class="form-control" id="max_keyword_length" name="max_keyword_length" 
+                                                   value="{{ config.keyword_extraction.max_keyword_length or 20 }}" min="5" max="50">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="keyword_prefix" class="form-label">关键词前缀</label>
+                                            <input type="text" class="form-control" id="keyword_prefix" name="keyword_prefix" 
+                                                   value="{{ config.keyword_extraction.keyword_prefix or '#' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="enable_synonyms" name="enable_synonyms" 
+                                                   {% if config.keyword_extraction.enable_synonyms %}checked{% endif %}>
+                                            <label class="form-check-label" for="enable_synonyms">
+                                                启用同义词扩展
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="enable_medical_terms" name="enable_medical_terms" 
+                                                   {% if config.keyword_extraction.enable_medical_terms %}checked{% endif %}>
+                                            <label class="form-check-label" for="enable_medical_terms">
+                                                启用医学术语识别
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 提取方法配置 -->
+                                <div class="mt-3">
+                                    <h6>提取方法配置</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="local_enabled" name="local_enabled" 
+                                                       {% if config.keyword_extraction.extraction_methods.local.enabled %}checked{% endif %}>
+                                                <label class="form-check-label" for="local_enabled">
+                                                    启用本地提取
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="use_regex" name="use_regex" 
+                                                       {% if config.keyword_extraction.extraction_methods.local.use_regex %}checked{% endif %}>
+                                                <label class="form-check-label" for="use_regex">
+                                                    使用正则表达式
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="use_frequency" name="use_frequency" 
+                                                       {% if config.keyword_extraction.extraction_methods.local.use_frequency %}checked{% endif %}>
+                                                <label class="form-check-label" for="use_frequency">
+                                                    使用频率分析
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="use_medical_dict" name="use_medical_dict" 
+                                                       {% if config.keyword_extraction.extraction_methods.local.use_medical_dict %}checked{% endif %}>
+                                                <label class="form-check-label" for="use_medical_dict">
+                                                    使用医学词典
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="llm_enabled" name="llm_enabled" 
+                                                       {% if config.keyword_extraction.extraction_methods.llm.enabled %}checked{% endif %}>
+                                                <label class="form-check-label" for="llm_enabled">
+                                                    启用LLM提取
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="fallback_to_local" name="fallback_to_local" 
+                                                       {% if config.keyword_extraction.extraction_methods.llm.fallback_to_local %}checked{% endif %}>
+                                                <label class="form-check-label" for="fallback_to_local">
+                                                    回退到本地提取
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 分块处理配置 -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-cut me-2"></i>分块处理配置
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="target_chunk_size" class="form-label">目标块大小</label>
+                                            <input type="number" class="form-control" id="target_chunk_size" name="target_chunk_size" 
+                                                   value="{{ config.chunk_processing.target_chunk_size or 1000 }}" min="100" max="5000">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="chunk_boundary_marker" class="form-label">分块边界标记</label>
+                                            <input type="text" class="form-control" id="chunk_boundary_marker" name="chunk_boundary_marker" 
+                                                   value="{{ config.chunk_processing.chunk_boundary_marker or '[CHUNK_BOUNDARY]' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="max_keywords_display" class="form-label">最大显示关键词数</label>
+                                            <input type="number" class="form-control" id="max_keywords_display" name="max_keywords_display" 
+                                                   value="{{ config.chunk_processing.max_keywords_display or 6 }}" min="1" max="20">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="keyword_separator" class="form-label">关键词分隔符</label>
+                                            <input type="text" class="form-control" id="keyword_separator" name="keyword_separator" 
+                                                   value="{{ config.chunk_processing.keyword_separator or ' ' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="preserve_formatting" name="preserve_formatting" 
+                                                   {% if config.chunk_processing.preserve_formatting %}checked{% endif %}>
+                                            <label class="form-check-label" for="preserve_formatting">
+                                                保持格式
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="add_keywords_at_beginning" name="add_keywords_at_beginning" 
+                                                   {% if config.chunk_processing.add_keywords_at_beginning %}checked{% endif %}>
+                                            <label class="form-check-label" for="add_keywords_at_beginning">
+                                                在开头添加关键词
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 输出配置 -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-file-export me-2"></i>输出配置
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="output_suffix" class="form-label">输出文件后缀</label>
+                                            <input type="text" class="form-control" id="output_suffix" name="output_suffix" 
+                                                   value="{{ config.output.output_suffix or '_with_keywords' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="log_level" class="form-label">日志级别</label>
+                                            <select class="form-select" id="log_level" name="log_level">
+                                                <option value="DEBUG" {% if config.output.log_level == 'DEBUG' %}selected{% endif %}>DEBUG</option>
+                                                <option value="INFO" {% if config.output.log_level == 'INFO' %}selected{% endif %}>INFO</option>
+                                                <option value="WARNING" {% if config.output.log_level == 'WARNING' %}selected{% endif %}>WARNING</option>
+                                                <option value="ERROR" {% if config.output.log_level == 'ERROR' %}selected{% endif %}>ERROR</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="save_original" name="save_original" 
+                                                   {% if config.output.save_original %}checked{% endif %}>
+                                            <label class="form-check-label" for="save_original">
+                                                保存原始文件
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="create_backup" name="create_backup" 
+                                                   {% if config.output.create_backup %}checked{% endif %}>
+                                            <label class="form-check-label" for="create_backup">
+                                                创建备份
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>保存配置
+                            </button>
+                            <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>返回首页
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

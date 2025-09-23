@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}错误 - {{ error_code }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        错误 {{ error_code }}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading">出现错误</h5>
+                        <p class="mb-0">{{ error_message }}</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h6>可能的解决方案：</h6>
+                        <ul>
+                            <li>检查上传的文件格式是否正确</li>
+                            <li>确保文件大小不超过限制</li>
+                            <li>刷新页面重试</li>
+                            <li>如果问题持续存在，请联系管理员</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{{ url_for('index') }}" class="btn btn-primary">
+                            <i class="bi bi-house"></i>
+                            返回首页
+                        </a>
+                        <button onclick="history.back()" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i>
+                            返回上一页
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

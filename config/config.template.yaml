@@ -1,0 +1,274 @@
+# Embedding增强项目配置模板
+# 复制此文件为 config.yaml 并根据需要修改配置
+
+# 应用程序配置
+app:
+  name: "Embedding增强项目"
+  version: "1.0.0"
+  debug: false
+  log_level: "INFO"
+
+# 服务器配置
+server:
+  host: "0.0.0.0"
+  port: 5000
+  threaded: true
+
+# 文档处理配置
+document_processing:
+  # 支持的文件格式
+  supported_formats:
+    - "pdf"
+    - "docx"
+    - "txt"
+    - "md"
+    - "xlsx"
+    - "csv"
+  
+  # 文件大小限制（MB）
+  max_file_size: 100
+  
+  # 批处理配置
+  batch_size: 10
+  max_workers: 4
+
+# 分块配置
+chunking:
+  # 分块策略: token_based, semantic, structured, hybrid
+  strategy: "hybrid"
+  
+  # 基本分块参数
+  chunk_size: 512
+  overlap_size: 50
+  min_chunk_size: 100
+  max_chunk_size: 1000
+  
+  # 语义分块参数
+  semantic:
+    similarity_threshold: 0.7
+    min_similarity: 0.5
+    max_similarity: 0.9
+  
+  # Token分块参数
+  token_based:
+    tokenizer: "cl100k_base"  # OpenAI的tokenizer
+  
+  # 结构化分块参数
+  structured:
+    respect_paragraphs: true
+    respect_sentences: true
+    min_paragraph_length: 50
+
+# 模型配置
+models:
+  # 嵌入模型
+  embedding:
+    model_name: "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    device: "cpu"  # cpu, cuda, mps
+    batch_size: 32
+    max_seq_length: 512
+    normalize_embeddings: true
+  
+  # 备选模型列表
+  alternative_models:
+    - "sentence-transformers/all-MiniLM-L6-v2"
+    - "sentence-transformers/distiluse-base-multilingual-cased"
+    - "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+
+# 质量评估配置
+quality_evaluation:
+  # 启用的评估指标
+  enable_semantic_check: true
+  enable_format_check: true
+  enable_size_check: true
+  enable_duplication_check: true
+  
+  # 质量阈值
+  min_quality_score: 0.6
+  semantic_threshold: 0.7
+  format_threshold: 0.8
+  
+  # 评估权重
+  weights:
+    semantic_completeness: 0.3
+    format_correctness: 0.2
+    size_distribution: 0.2
+    content_quality: 0.3
+
+# 关键词提取配置
+keyword_extraction:
+  # 提取方法: tfidf, textrank, jieba
+  method: "tfidf"
+  
+  # 关键词数量
+  max_keywords: 10
+  min_keyword_length: 2
+  
+  # TF-IDF参数
+  tfidf:
+    max_features: 1000
+    ngram_range: [1, 2]
+  
+  # TextRank参数
+  textrank:
+    window_size: 5
+    damping: 0.85
+
+# 输出配置
+output:
+  # 输出格式: json, csv, excel, txt
+  default_format: "json"
+  
+  # 输出选项
+  include_metadata: true
+  include_embeddings: false
+  include_quality_scores: true
+  include_keywords: true
+  
+  # 文件命名
+  timestamp_format: "%Y%m%d_%H%M%S"
+  output_prefix: "processed_"
+
+# 缓存配置
+cache:
+  enable: true
+  cache_dir: "cache"
+  max_cache_size: 1000  # MB
+  cache_ttl: 3600  # 秒
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/app.log"
+  max_file_size: 10  # MB
+  backup_count: 5
+  
+  # 彩色输出
+  colored_output: true
+  
+  # 日志级别配置
+  loggers:
+    document_processor: "INFO"
+    chunk_strategies: "INFO"
+    quality_evaluator: "INFO"
+    web_interface: "INFO"
+    cli_interface: "INFO"
+
+# 性能监控配置
+performance:
+  enable_monitoring: true
+  
+  # 监控指标
+  monitor_memory: true
+  monitor_cpu: true
+  monitor_disk: true
+  
+  # 性能阈值
+  thresholds:
+    memory_usage: 80  # 百分比
+    cpu_usage: 80     # 百分比
+    disk_usage: 90    # 百分比
+    processing_time: 300  # 秒
+  
+  # 报告配置
+  report_interval: 60  # 秒
+  save_reports: true
+
+# 错误处理配置
+error_handling:
+  # 重试配置
+  max_retries: 3
+  retry_delay: 1  # 秒
+  
+  # 错误恢复策略
+  recovery_strategies:
+    memory_error: "reduce_batch_size"
+    timeout_error: "increase_timeout"
+    model_error: "fallback_model"
+  
+  # 错误通知
+  notify_on_error: false
+  notification_email: ""
+
+# 安全配置
+security:
+  # 文件上传安全
+  allowed_extensions: [".pdf", ".docx", ".txt", ".md", ".xlsx", ".csv"]
+  scan_uploads: true
+  max_upload_size: 100  # MB
+  
+  # API安全
+  enable_cors: true
+  cors_origins: ["*"]
+  
+  # 数据隐私
+  anonymize_logs: false
+  encrypt_cache: false
+
+# 数据库配置（可选）
+database:
+  enable: false
+  type: "sqlite"  # sqlite, postgresql, mysql
+  
+  # SQLite配置
+  sqlite:
+    path: "data/app.db"
+  
+  # PostgreSQL配置
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "embedding_db"
+    username: ""
+    password: ""
+  
+  # MySQL配置
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "embedding_db"
+    username: ""
+    password: ""
+
+# 云存储配置（可选）
+cloud_storage:
+  enable: false
+  provider: "aws"  # aws, azure, gcp
+  
+  # AWS S3配置
+  aws:
+    access_key_id: ""
+    secret_access_key: ""
+    bucket_name: ""
+    region: "us-east-1"
+  
+  # Azure Blob配置
+  azure:
+    account_name: ""
+    account_key: ""
+    container_name: ""
+  
+  # Google Cloud配置
+  gcp:
+    project_id: ""
+    credentials_path: ""
+    bucket_name: ""
+
+# 实验性功能
+experimental:
+  # GPU加速
+  enable_gpu: false
+  gpu_memory_fraction: 0.8
+  
+  # 分布式处理
+  enable_distributed: false
+  worker_nodes: []
+  
+  # 高级分块
+  enable_neural_chunking: false
+  neural_model: ""
+  
+  # 自动调优
+  enable_auto_tuning: false
+  tuning_iterations: 10
