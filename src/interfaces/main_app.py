@@ -361,11 +361,15 @@ class EmbeddingEnhancementApp:
                 print(f"警告: 配置文件 {self.config_path} 不存在，使用默认配置")
                 self.config_manager = ConfigManager()
             
+            # 确保配置的目录存在
+            self.config_manager.ensure_directories_exist()
+            
             # 初始化日志系统
             log_config = self.config_manager.get_config().get("output", {})
+            logs_dir = self.config_manager.get_absolute_path("logs_directory")
             self.logger = setup_logging(
                 level=log_config.get("log_level", "INFO"),
-                log_dir="logs"
+                log_dir=logs_dir
             )
             
             # 初始化错误处理器
@@ -416,7 +420,8 @@ class EmbeddingEnhancementApp:
             
             # 确定输出目录
             if output_dir is None:
-                output_dir = os.path.join(os.path.dirname(input_file), "processed_output")
+                # 使用配置中的默认输出目录
+                output_dir = self.config_manager.get_absolute_path("output_directory")
             
             os.makedirs(output_dir, exist_ok=True)
             
@@ -480,22 +485,30 @@ class EmbeddingEnhancementApp:
                 processing_time=processing_time
             )
     
-    async def process_directory(self, input_dir: str, output_dir: Optional[str] = None) -> List[ProcessingResult]:
+    async def process_directory(self, input_dir: Optional[str] = None, output_dir: Optional[str] = None) -> List[ProcessingResult]:
         """
         批量处理目录中的文件
         
         Args:
-            input_dir: 输入目录路径
-            output_dir: 输出目录（可选）
+            input_dir: 输入目录路径（可选，默认使用配置中的输入目录）
+            output_dir: 输出目录（可选，默认使用配置中的输出目录）
             
         Returns:
             List[ProcessingResult]: 处理结果列表
         """
         try:
+            # 确定输入目录
+            if input_dir is None:
+                input_dir = self.config_manager.get_absolute_path("input_directory")
+            
             self.logger.info(f"开始批量处理目录: {input_dir}")
             
             # 查找Markdown文件
             input_path = Path(input_dir)
+            if not input_path.exists():
+                self.logger.error(f"输入目录不存在: {input_dir}")
+                return []
+                
             md_files = list(input_path.glob("*.md"))
             
             if not md_files:
@@ -504,7 +517,7 @@ class EmbeddingEnhancementApp:
             
             # 确定输出目录
             if output_dir is None:
-                output_dir = str(input_path / "processed_output")
+                output_dir = self.config_manager.get_absolute_path("output_directory")
             
             # 并发处理文件
             tasks = []
@@ -665,27 +678,21 @@ def main():
             
         elif args.file:
             # 处理单个文件
-            from src.core.preprocess_enhanced_v3 import MedicalDocumentProcessor
-
-            processor = MedicalDocumentProcessor()
-            output_file = args.output or os.path.join(
-                os.path.dirname(args.file),
-                "processed_output",
-                f"{os.path.basename(args.file).split('.')[0]}_optimized.md"
-            )
-
-            # 确保输出目录存在
-            os.makedirs(os.path.dirname(output_file), exist_ok=True)
-
-            processor.process_document(
-                input_path=args.file,
-                output_path=output_file,
-                include_metadata=True
-            )
-
-            print(f"✅ 文件处理成功!")
-            print(f"   输入文件: {args.file}")
-            print(f"   输出文件路径: {output_file}")
+            result = asyncio.run(app.process_single_file(args.file, args.output))
+            
+            if result.success:
+                print(f"✅ 文件处理成功!")
+                print(f"   输入文件: {result.input_file}")
+                print(f"   输出文件: {result.output_file}")
+                print(f"   质量评分: {result.quality_score:.1f}")
+                print(f"   处理时间: {result.processing_time:.1f}s")
+                print(f"   分块数量: {result.chunks_count}")
+                print(f"   关键词数量: {result.keywords_count}")
+            else:
+                print(f"❌ 文件处理失败!")
+                print(f"   输入文件: {result.input_file}")
+                print(f"   错误信息: {result.error_message}")
+                sys.exit(1)
                 
         elif args.dir:
             # 批量处理目录

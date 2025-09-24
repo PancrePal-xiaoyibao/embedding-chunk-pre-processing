@@ -1,0 +1,70 @@
+# AI Services Configuration
+# AI服务配置文件
+
+version: "1.0"
+
+# 服务配置
+services:
+  
+  # 聊天服务配置
+  chat:
+    default_provider: "ollama"
+    providers:
+      
+      # Ollama聊天服务
+      ollama:
+        base_url: "http://localhost:11434"  # Ollama服务地址
+        model_name: "qwen3:1.7b"  # 默认模型
+        timeout: 30.0  # 请求超时时间（秒）
+        max_retries: 3  # 最大重试次数
+        stream: false  # 是否使用流式响应
+        options:
+          temperature: 0.7  # 生成温度
+          top_p: 0.9  # Top-p采样
+          top_k: 40  # Top-k采样
+  
+  # 嵌入服务配置
+  embedding:
+    default_provider: "ollama"
+    providers:
+      
+      # Ollama嵌入服务
+      ollama:
+        base_url: "http://localhost:11434"  # Ollama服务地址
+        model_name: "nomic-embed-text"  # 嵌入模型
+        timeout: 30.0  # 请求超时时间（秒）
+        max_retries: 3  # 最大重试次数
+      
+      # 本地嵌入服务
+      local:
+        model_name: "all-MiniLM-L6-v2"  # 本地模型名称
+        device: "cpu"  # 计算设备 (cpu/cuda)
+  
+  # 重排序服务配置
+  rerank:
+    default_provider: "embedding_based"
+    providers:
+      
+      # 基于嵌入的重排序
+      embedding_based:
+        similarity_method: "cosine"  # 相似度计算方法
+        normalize_scores: true  # 是否标准化分数
+      
+      # Ollama重排序服务
+      ollama:
+        base_url: "http://localhost:11434"  # Ollama服务地址
+        model_name: "qwen3:1.7b"  # 重排序模型
+        timeout: 30.0  # 请求超时时间（秒）
+        max_retries: 3  # 最大重试次数
+      
+      # 交叉编码器重排序
+      cross_encoder:
+        model_name: "cross-encoder/ms-marco-MiniLM-L-6-v2"  # 交叉编码器模型
+        device: "cpu"  # 计算设备
+        batch_size: 32  # 批处理大小
+
+# 日志配置
+logging:
+  level: "INFO"  # 日志级别 (DEBUG/INFO/WARNING/ERROR)
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"  # 日志格式
+  file: None  # 日志文件路径 (null表示输出到控制台)

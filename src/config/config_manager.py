@@ -97,6 +97,76 @@ class OutputConfig:
     log_level: str = "INFO"
 
 
+@dataclass
+class EmbeddingConfig:
+    """
+    Embedding模型配置
+    
+    Attributes:
+        provider: 模型提供商 (sentence_transformers, ollama)
+        sentence_transformers: Sentence Transformers配置
+        ollama: Ollama配置
+    """
+    provider: str = "sentence_transformers"
+    sentence_transformers: Dict[str, Any] = None
+    ollama: Dict[str, Any] = None
+
+
+@dataclass
+class ChatConfig:
+    """
+    Chat配置
+    
+    Attributes:
+        provider: Chat提供商名称 (ollama, openai, anthropic)
+        ollama: Ollama Chat配置
+        openai: OpenAI Chat配置
+        alternative_models: 备选模型列表
+    """
+    provider: str = "ollama"
+    ollama: Dict[str, Any] = None
+    openai: Dict[str, Any] = None
+    alternative_models: Dict[str, List[str]] = None
+
+
+@dataclass
+class RerankConfig:
+    """
+    Rerank配置
+    
+    Attributes:
+        provider: Rerank提供商名称 (ollama, cohere, jina)
+        ollama: Ollama Rerank配置
+        alternative_models: 备选模型列表
+    """
+    provider: str = "ollama"
+    ollama: Dict[str, Any] = None
+    alternative_models: Dict[str, List[str]] = None
+
+
+@dataclass
+class PathsConfig:
+    """
+    路径配置
+    
+    Attributes:
+        input_directory: 输入目录
+        output_directory: 输出目录
+        config_directory: 配置目录
+        logs_directory: 日志目录
+        temp_directory: 临时目录
+        auto_create_directories: 是否自动创建目录
+        use_relative_paths: 是否使用相对路径
+    """
+    input_directory: str = "doc/To_be_processed"
+    output_directory: str = "doc/processed_output"
+    config_directory: str = "config"
+    logs_directory: str = "logs"
+    temp_directory: str = "temp"
+    auto_create_directories: bool = True
+    use_relative_paths: bool = True
+
+
 class ConfigManager:
     """
     配置管理器
@@ -257,6 +327,107 @@ class ConfigManager:
                     "min_quality_score": 70.0,
                     "max_chunk_size_variance": 0.5,
                     "min_keyword_coverage": 0.8
+                }
+            },
+            "paths": {
+                "input_directory": "doc/To_be_processed",
+                "output_directory": "doc/processed_output",
+                "config_directory": "config",
+                "logs_directory": "logs",
+                "temp_directory": "temp",
+                "auto_create_directories": True,
+                "use_relative_paths": True
+            },
+            "models": {
+                "embedding": {
+                    "provider": "sentence_transformers",
+                    "sentence_transformers": {
+                        "model_name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+                        "device": "cpu",
+                        "batch_size": 32,
+                        "max_seq_length": 512,
+                        "normalize_embeddings": True
+                    },
+                    "ollama": {
+                        "base_url": "http://localhost:11434",
+                        "model_name": "nomic-embed-text",
+                        "timeout": 30,
+                        "max_retries": 3,
+                        "batch_size": 16,
+                        "normalize_embeddings": True,
+                        "enable_cache": True
+                    }
+                },
+                "alternative_models": {
+                    "sentence_transformers": [
+                        "sentence-transformers/all-MiniLM-L6-v2",
+                        "sentence-transformers/distiluse-base-multilingual-cased",
+                        "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+                    ],
+                    "ollama": [
+                        "nomic-embed-text",
+                        "mxbai-embed-large",
+                        "all-minilm"
+                    ]
+                }
+            },
+            "chat": {
+                "provider": "ollama",
+                "ollama": {
+                    "base_url": "http://localhost:11434",
+                    "model_name": "qwen3:1.7b",
+                    "timeout": 60,
+                    "max_retries": 3,
+                    "temperature": 0.7,
+                    "max_tokens": 2048,
+                    "top_p": 0.9,
+                    "top_k": 40,
+                    "stream": True,
+                    "keep_alive": "5m",
+                    "system_prompt": "你是一个专业的AI助手，请根据用户的问题提供准确、有用的回答。",
+                    "context": {
+                        "max_history": 10,
+                        "max_context_tokens": 4096,
+                        "enable_context": True
+                    }
+                },
+                "openai": {
+                    "api_key": "",
+                    "base_url": "https://api.openai.com/v1",
+                    "model_name": "gpt-3.5-turbo",
+                    "timeout": 60,
+                    "max_retries": 3,
+                    "temperature": 0.7,
+                    "max_tokens": 2048
+                },
+                "alternative_models": {
+                    "ollama": [
+                        "qwen3:1.7b",
+                        "llama3.2",
+                        "gemma2:2b",
+                        "phi3:mini"
+                    ],
+                    "openai": [
+                        "gpt-3.5-turbo",
+                        "gpt-4",
+                        "gpt-4-turbo"
+                    ]
+                }
+            },
+            "rerank": {
+                "provider": "ollama",
+                "ollama": {
+                    "base_url": "http://localhost:11434",
+                    "model_name": "nomic-embed-text",
+                    "timeout": 30,
+                    "max_retries": 3,
+                    "top_k": 10
+                },
+                "alternative_models": {
+                    "ollama": [
+                        "nomic-embed-text",
+                        "mxbai-embed-large"
+                    ]
                 }
             }
         }
@@ -503,6 +674,101 @@ class ConfigManager:
         """
         config = self.get_section("output")
         return OutputConfig(**config)
+    
+    def get_paths_config(self) -> PathsConfig:
+        """
+        获取路径配置
+        
+        Returns:
+            PathsConfig: 路径配置对象
+        """
+        config = self.get_section("paths")
+        # 过滤掉description字段，因为PathsConfig不接受这个参数
+        filtered_config = {k: v for k, v in config.items() if k != "description"}
+        return PathsConfig(**filtered_config)
+    
+    def get_embedding_config(self) -> EmbeddingConfig:
+        """
+        获取embedding模型配置
+        
+        Returns:
+            EmbeddingConfig: embedding配置对象
+        """
+        models_config = self.get_section("models")
+        embedding_config = models_config.get("embedding", {})
+        
+        return EmbeddingConfig(
+            provider=embedding_config.get("provider", "sentence_transformers"),
+            sentence_transformers=embedding_config.get("sentence_transformers", {}),
+            ollama=embedding_config.get("ollama", {})
+        )
+    
+    def get_chat_config(self) -> ChatConfig:
+        """
+        获取聊天模型配置
+        
+        Returns:
+            ChatConfig: 聊天模型配置对象
+        """
+        chat_config = self.get_section("chat")
+        return ChatConfig(
+            provider=chat_config.get("provider", "ollama"),
+            ollama=chat_config.get("ollama", {}),
+            openai=chat_config.get("openai", {}),
+            alternative_models=chat_config.get("alternative_models", {})
+        )
+    
+    def get_rerank_config(self) -> RerankConfig:
+        """
+        获取重排序模型配置
+        
+        Returns:
+            RerankConfig: 重排序模型配置对象
+        """
+        config = self.get_section("models")["rerank"]
+        return RerankConfig(**config)
+    
+    def get_absolute_path(self, path_type: str) -> str:
+        """
+        获取绝对路径
+        
+        Args:
+            path_type: 路径类型 (input_directory, output_directory, config_directory, logs_directory, temp_directory)
+            
+        Returns:
+            str: 绝对路径
+        """
+        paths_config = self.get_paths_config()
+        relative_path = getattr(paths_config, path_type, "")
+        
+        if paths_config.use_relative_paths and not os.path.isabs(relative_path):
+            # 相对于项目根目录
+            project_root = Path(__file__).parent.parent.parent
+            return str(project_root / relative_path)
+        else:
+            return relative_path
+    
+    def ensure_directories_exist(self):
+        """
+        确保所有配置的目录存在
+        """
+        paths_config = self.get_paths_config()
+        
+        if not paths_config.auto_create_directories:
+            return
+            
+        directories = [
+            self.get_absolute_path("input_directory"),
+            self.get_absolute_path("output_directory"),
+            self.get_absolute_path("config_directory"),
+            self.get_absolute_path("logs_directory"),
+            self.get_absolute_path("temp_directory")
+        ]
+        
+        for directory in directories:
+            if directory:
+                Path(directory).mkdir(parents=True, exist_ok=True)
+                logging.debug(f"确保目录存在: {directory}")
     
     def update_config(self, updates: Dict[str, Any]):
         """

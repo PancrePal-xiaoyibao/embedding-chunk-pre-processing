@@ -26,3 +26,12 @@
 {"timestamp": "2025-09-23T20:39:56.756709", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
 {"timestamp": "2025-09-23T20:39:56.756978", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md", "module": "logger", "function": null, "line": 0}
 {"timestamp": "2025-09-23T20:54:06.408825", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:39:03.352635", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:39:03.353310", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: To_be_processed/test_document.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:39:04.405092", "level": "ERROR", "logger": "EmbeddingEnhancer", "message": "处理文件失败 To_be_processed/test_document.md: name 'datetime' is not defined", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:40:09.482648", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:40:09.483523", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: To_be_processed/test_document.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:40:11.021210", "level": "ERROR", "logger": "EmbeddingEnhancer", "message": "处理文件失败 To_be_processed/test_document.md: name 'datetime' is not defined", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:40:23.660689", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "应用组件初始化完成", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:40:23.661709", "level": "INFO", "logger": "EmbeddingEnhancer", "message": "开始处理文件: To_be_processed/test_document.md", "module": "logger", "function": null, "line": 0}
+{"timestamp": "2025-09-24T10:40:24.707922", "level": "ERROR", "logger": "EmbeddingEnhancer", "message": "处理文件失败 To_be_processed/test_document.md: name 'datetime' is not defined", "module": "logger", "function": null, "line": 0}

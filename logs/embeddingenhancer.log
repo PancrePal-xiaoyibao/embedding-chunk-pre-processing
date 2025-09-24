@@ -26,3 +26,12 @@
 2025-09-23 20:39:56,756 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
 2025-09-23 20:39:56,756 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: /Users/qinxiaoqiang/Downloads/Embedding增强项目/doc/To_be_processed/恶性肿瘤并发症治疗.md
 2025-09-23 20:54:06,408 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-24 10:39:03,352 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-24 10:39:03,353 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: To_be_processed/test_document.md
+2025-09-24 10:39:04,405 - EmbeddingEnhancer - ERROR - logger:None:0 - 处理文件失败 To_be_processed/test_document.md: name 'datetime' is not defined
+2025-09-24 10:40:09,482 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-24 10:40:09,483 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: To_be_processed/test_document.md
+2025-09-24 10:40:11,021 - EmbeddingEnhancer - ERROR - logger:None:0 - 处理文件失败 To_be_processed/test_document.md: name 'datetime' is not defined
+2025-09-24 10:40:23,660 - EmbeddingEnhancer - INFO - logger:None:0 - 应用组件初始化完成
+2025-09-24 10:40:23,661 - EmbeddingEnhancer - INFO - logger:None:0 - 开始处理文件: To_be_processed/test_document.md
+2025-09-24 10:40:24,707 - EmbeddingEnhancer - ERROR - logger:None:0 - 处理文件失败 To_be_processed/test_document.md: name 'datetime' is not defined

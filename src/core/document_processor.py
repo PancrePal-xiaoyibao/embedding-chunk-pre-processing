@@ -23,6 +23,7 @@ from config.config_manager import ConfigManager
 from config.keyword_extractor import MedicalKeywordExtractor
 from core.chunk_evaluator import ChunkEvaluator
 from core.preprocess_enhanced_v3 import MedicalDocumentProcessor as EnhancedProcessor
+from core.embedding_factory import EmbeddingFactory
 
 
 @dataclass
@@ -38,6 +39,7 @@ class DocumentChunk:
         end_position: 在原文档中的结束位置
         size: 分块大小（字符数）
         quality_score: 质量评分
+        embedding: embedding向量
         metadata: 元数据
     """
     id: str
@@ -47,6 +49,7 @@ class DocumentChunk:
     end_position: int = 0
     size: int = 0
     quality_score: float = 0.0
+    embedding: List[float] = None
     metadata: Dict[str, Any] = None
     
     def __post_init__(self):
@@ -116,6 +119,8 @@ class DocumentProcessor:
         self.keyword_extractor = None
         self.chunk_evaluator = None
         self.enhanced_processor = None  # 增强处理器实例
+        self.embedding_factory = None  # embedding工厂实例
+        self.embedding_model = None  # embedding模型实例
         
         # 初始化组件
         self._initialize_components()
@@ -153,7 +158,11 @@ class DocumentProcessor:
             # 初始化分块评估器
             self.chunk_evaluator = ChunkEvaluator()
             
-            logging.info("文档处理组件初始化成功（增强处理器为主逻辑）")
+            # 初始化embedding工厂和模型
+            self.embedding_factory = EmbeddingFactory(self.config_manager)
+            self.embedding_model = self.embedding_factory.create_embedding()
+            
+            logging.info("文档处理组件初始化成功（增强处理器为主逻辑，embedding工厂已集成）")
             
         except Exception as e:
             logging.error(f"文档处理组件初始化失败: {e}")
@@ -164,7 +173,8 @@ class DocumentProcessor:
                         document_path: Optional[str] = None,
                         strategy: str = "semantic",
                         extract_keywords: bool = True,
-                        evaluate_quality: bool = True) -> ProcessingResult:
+                        evaluate_quality: bool = True,
+                        generate_embeddings: bool = True) -> ProcessingResult:
         """
         处理单个文档
         
@@ -174,6 +184,7 @@ class DocumentProcessor:
             strategy: 分块策略
             extract_keywords: 是否提取关键词
             evaluate_quality: 是否评估质量
+            generate_embeddings: 是否生成embedding向量
             
         Returns:
             ProcessingResult: 处理结果
@@ -194,6 +205,10 @@ class DocumentProcessor:
             # 质量评估
             if evaluate_quality:
                 chunks = self._evaluate_chunks_quality(chunks)
+            
+            # 生成embedding向量
+            if generate_embeddings:
+                chunks = self._generate_embeddings_for_chunks(chunks)
             
             # 计算处理时间
             processing_time = time.time() - start_time
@@ -692,6 +707,62 @@ class DocumentProcessor:
             except Exception as e:
                 logging.error(f"分块{chunk.id}关键词提取失败: {e}")
                 chunk.keywords = []
+        
+        return chunks
+    
+    def _generate_embeddings_for_chunks(self, chunks: List[DocumentChunk]) -> List[DocumentChunk]:
+        """
+        为分块生成embedding向量
+        
+        Args:
+            chunks: 分块列表
+            
+        Returns:
+            List[DocumentChunk]: 包含embedding向量的分块列表
+        """
+        if not self.embedding_model:
+            logging.warning("Embedding模型未初始化，跳过embedding生成")
+            return chunks
+        
+        try:
+            # 提取所有分块的文本内容
+            texts = [chunk.content for chunk in chunks]
+            
+            # 批量生成embedding
+            embeddings = self.embedding_model.get_embeddings_batch(texts)
+            
+            # 将embedding分配给对应的分块
+            for i, chunk in enumerate(chunks):
+                if i < len(embeddings):
+                    chunk.embedding = embeddings[i]
+                    
+                    # 更新元数据
+                    chunk.metadata["embedding"] = {
+                        "provider": self.embedding_model.__class__.__name__,
+                        "dimension": len(embeddings[i]) if embeddings[i] else 0,
+                        "timestamp": datetime.now().isoformat()
+                    }
+                else:
+                    logging.warning(f"分块{chunk.id}未能获取embedding向量")
+                    
+        except Exception as e:
+            logging.error(f"生成embedding向量失败: {e}")
+            # 如果批量生成失败，尝试逐个生成
+            for chunk in chunks:
+                try:
+                    embedding = self.embedding_model.get_embedding(chunk.content)
+                    chunk.embedding = embedding
+                    
+                    # 更新元数据
+                    chunk.metadata["embedding"] = {
+                        "provider": self.embedding_model.__class__.__name__,
+                        "dimension": len(embedding) if embedding else 0,
+                        "timestamp": datetime.now().isoformat(),
+                        "fallback": True
+                    }
+                except Exception as chunk_error:
+                    logging.error(f"分块{chunk.id}生成embedding失败: {chunk_error}")
+                    chunk.embedding = None
         
         return chunks
     

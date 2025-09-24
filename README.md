@@ -1,41 +1,59 @@
 # Embedding增强项目
 
-一个基于深度学习的文档处理和向量化系统，提供智能文档分块、质量评估和向量检索功能。
+一个专注于医学文档处理的智能系统，通过先进的分块策略和关键词提取技术，显著提升RAG系统的检索效果。
 
 ## 🚀 项目特性
 
-- **智能文档分块**: 支持多种分块策略（语义分块、Token分块、混合分块等）
-- **质量评估**: 全面的文档质量评估体系，包括语义完整性、格式正确性等
-- **多格式支持**: 支持PDF、Word、Excel、纯文本等多种文档格式
-- **向量化处理**: 集成多种预训练模型，支持中英文文档向量化
-- **Web界面**: 提供直观的Web操作界面
-- **命令行工具**: 支持批量处理和自动化操作
-- **配置管理**: 灵活的配置系统，支持多种配置格式
-- **性能监控**: 内置性能监控和日志系统
+- **智能医学文档分块**: 基于语义和结构的多策略chunk分割，专门优化医学文档处理
+- **关键词增强**: 医学专业术语提取和同义词扩展，支持本地化和LLM双重策略
+- **质量保证**: 全面的chunk质量评估和优化建议系统
+- **多界面支持**: 提供Web界面和命令行工具，满足不同使用场景
+- **高性能处理**: 本地化优先，LLM备用的混合处理模式
+- **灵活配置**: 支持JSON配置文件，可自定义处理参数
+- **完善的日志**: 内置性能监控和详细的处理日志
 
 ## 📁 项目结构
 
 ```
 Embedding增强项目/
-├── main_app.py                 # 主入口文件
-├── config_manager.py           # 配置管理模块
-├── document_processor.py       # 文档处理核心模块
-├── chunk_strategies.py         # 分块策略模块
-├── quality_evaluator.py        # 质量评估模块
-├── web_interface.py            # Web界面模块
-├── cli_interface.py            # 命令行界面模块
-├── utils/                      # 工具模块目录
+├── main.py                     # 项目主入口文件
+├── config.json                 # 主配置文件
+├── requirements.txt            # 项目依赖
+├── setup.py                    # 安装配置
+├── README.md                   # 项目说明
+├── design.md                   # 设计文档
+├── .gitignore                  # Git忽略文件
+├── src/                        # 源代码目录
+│   ├── __init__.py
+│   ├── config/                 # 配置管理模块
+│   │   ├── config_manager.py   # 配置管理器
+│   │   └── keyword_extractor.py # 关键词提取器
+│   ├── core/                   # 核心处理模块
+│   │   ├── document_processor.py # 文档处理器
+│   │   ├── preprocess_enhanced_v3.py # 增强预处理器
+│   │   ├── chunk_evaluator.py  # 分块评估器
+│   │   └── quality_evaluator.py # 质量评估器
+│   ├── interfaces/             # 用户界面模块
+│   │   ├── main_app.py         # 主应用逻辑
+│   │   ├── web_interface.py    # Web界面
+│   │   └── cli_interface.py    # 命令行界面
+│   ├── tests/                  # 测试模块
+│   └── tools/                  # 工具模块
+├── utils/                      # 通用工具目录
 │   ├── __init__.py
 │   ├── logger.py              # 日志管理
 │   ├── error_handler.py       # 错误处理
 │   ├── performance_monitor.py # 性能监控
 │   ├── file_utils.py          # 文件工具
 │   └── text_utils.py          # 文本处理工具
-├── config/                     # 配置文件目录
-├── data/                       # 数据目录
-├── logs/                       # 日志目录
-├── requirements.txt            # 项目依赖
-└── README.md                   # 项目说明
+├── templates/                  # Web界面模板
+├── static/                     # 静态资源文件
+├── config/                     # 配置模板目录
+├── doc/                        # 文档目录
+│   └── To_be_processed/        # 待处理文档目录
+├── Dev_logs/                   # 开发日志
+├── chunk_str_design/           # 分块策略设计文档
+└── Converted_Document_test/    # 文档转换测试
 ```
 
 ## 🛠️ 安装和配置
@@ -86,59 +104,64 @@ Embedding增强项目/
 
 启动Web服务：
 ```bash
-python main_app.py --mode web --port 5000
+python main.py --web
 ```
 
-访问 `http://localhost:5000` 使用Web界面。
+访问 `http://localhost:5000` 使用Web界面进行文档上传和处理。
 
 ### 2. 命令行使用
 
 #### 处理单个文档
 ```bash
-python main_app.py --mode cli process --input document.pdf --output output/
+# 处理单个Markdown文档
+python main.py --file /path/to/document.md
+
+# 指定输出目录
+python main.py --file /path/to/document.md --output /path/to/output/
 ```
 
 #### 批量处理文档
 ```bash
-python main_app.py --mode cli batch --input-dir documents/ --output-dir output/
+# 处理整个目录
+python main.py --dir /path/to/documents/
+
+# 指定输出目录
+python main.py --dir /path/to/documents/ --output /path/to/output/
 ```
 
-#### 质量评估
+#### 启动命令行界面
 ```bash
-python main_app.py --mode cli evaluate --input document.pdf --report-format json
+python main.py --cli
 ```
 
-#### 配置管理
+#### 查看帮助
 ```bash
-# 查看当前配置
-python main_app.py --mode cli config --show
-
-# 设置配置项
-python main_app.py --mode cli config --set chunk_size=512
-
-# 重置配置
-python main_app.py --mode cli config --reset
+python main.py --help
 ```
 
 ### 3. Python API使用
 
 ```python
-from document_processor import DocumentProcessor
-from config_manager import ConfigManager
+from src.core.preprocess_enhanced_v3 import MedicalDocumentProcessor
+from src.config.config_manager import ConfigManager
 
-# 初始化配置
-config_manager = ConfigManager()
-config = config_manager.load_config()
+# 初始化配置管理器
+config_manager = ConfigManager("config.json")
 
-# 创建文档处理器
-processor = DocumentProcessor(config)
+# 创建医学文档处理器
+processor = MedicalDocumentProcessor(
+    target_chunk_size=500,
+    max_chunk_size=1500
+)
 
 # 处理文档
-result = processor.process_file("document.pdf")
+processor.process_document(
+    input_path="document.md",
+    output_path="output/document_optimized.md",
+    include_metadata=True
+)
 
-# 查看结果
-print(f"处理了 {len(result.chunks)} 个分块")
-print(f"平均质量分数: {result.average_quality_score:.2f}")
+print("文档处理完成！")
 ```
 
 ## ⚙️ 配置说明
