@@ -1,0 +1,107 @@
+# OpenAI兼容格式配置示例
+# 支持OpenAI、StepFun、DeepSeek等兼容OpenAI API格式的服务
+
+version: "1.0"
+
+services:
+  # 聊天服务配置
+  chat:
+    default_provider: "openai"
+    providers:
+      
+      # OpenAI 聊天服务
+      openai:
+        base_url: "https://api.openai.com/v1"
+        api_key: "${OPENAI_API_KEY}"
+        model_name: "gpt-3.5-turbo"
+        timeout: 60.0
+        max_retries: 3
+        stream: false
+        options:
+          temperature: 0.7
+          top_p: 1.0
+          max_tokens: 4096
+          frequency_penalty: 0.0
+          presence_penalty: 0.0
+      
+      # StepFun 聊天服务
+      stepfun:
+        base_url: "https://api.stepfun.com/v1"
+        api_key: "${STEPFUN_API_KEY}"
+        model_name: "step-1v-8k"
+        timeout: 60.0
+        max_retries: 3
+        stream: false
+        options:
+          temperature: 0.7
+          top_p: 1.0
+          max_tokens: 4096
+          frequency_penalty: 0.0
+          presence_penalty: 0.0
+      
+      # DeepSeek 聊天服务
+      deepseek:
+        base_url: "https://api.deepseek.com/v1"
+        api_key: "${DEEPSEEK_API_KEY}"
+        model_name: "deepseek-chat"
+        timeout: 60.0
+        max_retries: 3
+        stream: false
+        options:
+          temperature: 0.7
+          top_p: 1.0
+          max_tokens: 4096
+          frequency_penalty: 0.0
+          presence_penalty: 0.0
+
+  # 嵌入服务配置
+  embedding:
+    default_provider: "openai"
+    providers:
+      
+      # OpenAI 嵌入服务
+      openai:
+        base_url: "https://api.openai.com/v1"
+        api_key: "${OPENAI_API_KEY}"
+        model_name: "text-embedding-ada-002"
+        timeout: 60.0
+        max_retries: 3
+        batch_size: 100
+      
+      # StepFun 嵌入服务
+      stepfun:
+        base_url: "https://api.stepfun.com/v1"
+        api_key: "${STEPFUN_API_KEY}"
+        model_name: "step-1v-embedding"
+        timeout: 60.0
+        max_retries: 3
+        batch_size: 100
+
+  # 重排序服务配置
+  rerank:
+    default_provider: "openai"
+    providers:
+      
+      # OpenAI 重排序服务 (通过聊天模型实现)
+      openai:
+        base_url: "https://api.openai.com/v1"
+        api_key: "${OPENAI_API_KEY}"
+        model_name: "gpt-3.5-turbo"
+        timeout: 60.0
+        max_retries: 3
+        batch_size: 10
+      
+      # StepFun 重排序服务
+      stepfun:
+        base_url: "https://api.stepfun.com/v1"
+        api_key: "${STEPFUN_API_KEY}"
+        model_name: "step-1v-8k"
+        timeout: 60.0
+        max_retries: 3
+        batch_size: 10
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: None

@@ -1,0 +1,54 @@
+# GLM-4.5 AI Services Configuration
+# GLM-4.5 AI服务配置示例
+
+version: "1.0"
+
+# 服务配置
+services:
+  
+  # 聊天服务配置 - 使用GLM-4.5
+  chat:
+    default_provider: "glm4"
+    providers:
+      glm4:
+        base_url: "https://open.bigmodel.cn/api/paas/v4/"
+        api_key: "${GLM_API_KEY}"  # 从环境变量读取API密钥
+        model_name: "glm-4-plus"  # GLM-4.5模型
+        timeout: 60.0
+        max_retries: 3
+        stream: false
+        options:
+          temperature: 0.7
+          top_p: 0.9
+          max_tokens: 4096
+          do_sample: true
+  
+  # 嵌入服务配置 - 使用GLM嵌入模型
+  embedding:
+    default_provider: "glm4"
+    providers:
+      glm4:
+        base_url: "https://open.bigmodel.cn/api/paas/v4/"
+        api_key: "${GLM_API_KEY}"  # 从环境变量读取API密钥
+        model_name: "embedding-2"  # GLM嵌入模型
+        timeout: 60.0
+        max_retries: 3
+        batch_size: 100
+  
+  # 重排序服务配置 - 使用GLM-4.5进行重排序
+  rerank:
+    default_provider: "glm4"
+    providers:
+      glm4:
+        base_url: "https://open.bigmodel.cn/api/paas/v4/"
+        api_key: "${GLM_API_KEY}"  # 从环境变量读取API密钥
+        model_name: "glm-4-plus"
+        timeout: 60.0
+        max_retries: 3
+        batch_size: 10
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: None
